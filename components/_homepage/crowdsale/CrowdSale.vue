@@ -313,6 +313,8 @@ export default {
         createWeb3Modal({
             wagmiConfig: wagmiConfig,
             projectId,
+            chains,
+            enableAnalytics: true,
         });
         const modal = useWeb3Modal();
         return {
@@ -389,9 +391,9 @@ export default {
     },
     mounted() {
         this.getSaleContractStatus();
-        watchAccount(this.wagmiConfig, {
+        const unwatch = watchAccount(this.wagmiConfig, {
             onChange(account) {
-                console.log(account);
+                console.log("account---->",account);
                 if (!account.isConnected) {
                     this.step =
                         useRuntimeConfig().public.CROWDSALE_STEPS.CONNECT_WALLET;
@@ -400,6 +402,7 @@ export default {
                 }
             },
         });
+        unwatch();
     },
     methods: {
         getCurrencyIcon(c) {
@@ -589,7 +592,7 @@ export default {
                     useRuntimeConfig().public.CROWDSALE_NETWORK_ID
                 );
                 const status = await readContract(this.wagmiConfig, {
-                    abiCrowdSaleContract,
+                    abi: abiCrowdSaleContract,
                     address:
                         useRuntimeConfig().public.CROWDSALE_CONTRACT_ADDRESS,
                     chainId: Number(
@@ -599,7 +602,7 @@ export default {
                     args: [this.tier],
                 });
 
-                console.log(status);
+                console.log("status", status);
 
                 const dayjs = useDayjs();
 
@@ -617,7 +620,7 @@ export default {
 
                 if (this.tier < 3) {
                     const status = await readContract(this.wagmiConfig, {
-                        abiCrowdSaleContract,
+                        abi: abiCrowdSaleContract,
                         address:
                             useRuntimeConfig().public
                                 .CROWDSALE_CONTRACT_ADDRESS,
@@ -636,7 +639,7 @@ export default {
         async getUserContractStatus() {
             try {
                 const userVesting = await readContract(this.wagmiConfig, {
-                    abiCrowdSaleContract,
+                    abi: abiCrowdSaleContract,
                     address:
                         useRuntimeConfig().public.CROWDSALE_CONTRACT_ADDRESS,
                     chainId: Number(
