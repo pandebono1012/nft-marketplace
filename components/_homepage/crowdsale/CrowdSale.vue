@@ -20,8 +20,8 @@
                     />
                 </div>
                 <p class="crowd-sale__token-sold">
-                    {{ formatNumber(totalSold) }} /
-                    {{ formatNumber(totalSale) }} EOBO sold
+                    <!-- {{ formatNumber(totalSold) }} /
+                    {{ formatNumber(totalSale) }} EOBO sold -->
                 </p>
                 <p class="crowd-sale__sub-desc">
                     Please connect an ERC-20 wallet to participate.
